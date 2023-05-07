@@ -1,0 +1,71 @@
+/**
+ * @param {integer} init
+ * @return { increment: Function, decrement: Function, reset: Function }
+ */
+ METHOD-1:
+ var createCounter = function(init) {
+ let cnt=init
+ //any method defined will have access to init and the sharwed copy of init
+//  evry time we create a new object
+ function increment(){
+     return ++cnt;
+ }
+ 
+ function decrement(){
+     return --cnt;
+ }
+ function reset(){
+     cnt=init
+     return cnt
+ }
+    return {
+        //  if the key and the value have the same name you can durectly do 
+         increment, 
+        decrement,
+        reset
+
+        // increment:increment, 
+        // decrement:decrement,
+        // reset:reset
+    }
+};
+ 
+ METHOD-4
+ 
+ const increment=()=>{
+     return ++cnt;
+ }
+ const decrement=()=>  --cnt; //ingle line(no need of return)
+ 
+ 
+ 
+ 
+ METHOD-3:
+ class counter{
+    constructor(init){
+        this.init=init
+        this.cnt=init
+    }
+    //in classes you dont need 'function' keyword
+    increment(){
+        return ++this.cnt;
+    }
+    decrement(){
+        return --this.cnt;
+    }
+    reset(){
+        this.cnt=this.init
+        return this.cnt;
+    }
+}
+var createCounter = function(init) {
+    return new counter(init);
+};
+
+
+/**
+ * const counter = createCounter(5)
+ * counter.increment(); // 6
+ * counter.reset(); // 5
+ * counter.decrement(); // 4
+ */
