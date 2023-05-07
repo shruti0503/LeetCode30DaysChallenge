@@ -14,3 +14,39 @@ var createCounter = function(n) {
  * counter() // 11
  * counter() // 12
  */
+This question is intended as an introduction to closures. In JavaScript, functions have a reference to all variables declared in the same scope as well as any outer scopes. 
+These scopes are known as the function's lexical environment. The combination of the function and it's environment is known as a closure.
+
+Closure Example
+In Javascript, you can declare functions within other functions and return them. The inner function has access to any variables declared above it.
+
+function createAdder(a) {
+  return function add(b) {
+    const sum = a + b;
+    return sum;
+  }
+}
+const addTo2 = createAdder(2);
+addTo2(5); // 7
+
+The inner function add has access to a. This allows the outer function to serve as a factory of new functions, each with different behavior.
+
+Closures Versus Classes
+You may notice that in the above example createAdder is very similar to a class constructor.
+class Adder {
+  constructor(a) {
+     this.a = a;
+  }
+
+  add(b) {
+    const sum = this.a + b;
+    return sum;
+  }
+}
+const addTo2 = new Adder(2);
+addTo2.add(5); // 7
+
+
+
+In JavaScript, class fields (such as var a) are 
+not declared using the var keyword inside the class body. Instead, you can define them inside the constructor function, like this:
