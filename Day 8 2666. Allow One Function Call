@@ -1,1 +1,27 @@
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
 
+console.log("Welcome to Programiz!");
+var once = function(fn) {
+  let hasBeenCalled = false;
+  return function(...args){
+    if (hasBeenCalled) {
+        console.log("already called")
+      return undefined;
+    } else {
+      hasBeenCalled = true;
+      console.log("function called")
+      console.log(...args);
+      return fn(...args);
+    }
+  }
+};
+
+
+ let fn = (a,b,c) => (a + b + c)
+ let onceFn = once(fn)
+  onceFn("shruti")
+  onceFn(1,2,3); // 6
+  onceFn(2,3,6); // returns undefined without calling fn
+  onceFn("shruti")
+ 
