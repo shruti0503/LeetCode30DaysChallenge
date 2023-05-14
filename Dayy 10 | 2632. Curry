@@ -1,1 +1,39 @@
+/**
+ * @param {Function} fn
+ * @return {Function}
+ */
+//  const add = a => b => a + b;
+var curry = function(fn) {
+   let nums=[];
+// Inside the curry function, a local variable nums is declared and initialized as an empty array. This variable will store the arguments provided during partial function application.
 
+// This inner function is the curried version of the original function fn.
+    return function curried(...args) {
+// ...args is a rest parameter that allows the curried function to accept any number of arguments.
+       nums=[...nums,...args];
+// nums = [...nums, ...args] appends the newly passed arguments to the nums array, effectively collecting all the arguments provided during partial function application.
+       if(fn.length===nums.length){
+// if (fn.length === nums.length) checks if the number of arguments provided (nums.length) matches the expected number of arguments of the original function (fn.length).
+           const res=fn(...nums);
+           nums=[];
+           return res;
+// If the numbers match, it means all the arguments have been collected, so the original function fn is invoked with 
+// the collected arguments using the spread operator ...nums. The result is stored in a variable res.
+// nums = [] resets the nums array to an empty array so
+//  that it can be used again for the next function application.
+// Finally, return res returns the result of invoking 
+// the original function fn with the collected arguments.
+       }
+       else{
+           return curried;
+// If the numbers don't match, it means partial function application is still in progress. In this case, the curried function is returned again to allow for further argument collection.
+//  This enables chaining of function calls until all arguments are provided.
+       }
+    }
+};
+
+/**
+ * function sum(a, b) { return a + b; }
+ * const csum = curry(sum);
+ * csum(1)(2) // 3
+ */
