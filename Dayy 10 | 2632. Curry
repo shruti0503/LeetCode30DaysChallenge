@@ -32,6 +32,28 @@ var curry = function(fn) {
     }
 };
 
+var curry = function(fn) {
+    return function curried(...args) {
+        //base case
+        if(args.length===fn.length){
+            return fn(...args)
+        }
+        else{
+            return function(...newArgs){
+                return curried(...args,...newArgs);
+            }
+        }
+// This new function accepts ...newArgs, which represents additional arguments provided during the partial application.
+// The curried function is called recursively with the combined arguments
+//  using the spread operator ...args and ...newArgs. 
+//  This recursive call allows for the chaining of function calls until all arguments are provided.
+// The process continues until all arguments are collected and the base case is satisfied.
+// The curry function enables the creation of curried functions,
+//  which can be used for partial function application and creating reusable functions with different argument configurations.
+
+    }
+};
+
 /**
  * function sum(a, b) { return a + b; }
  * const csum = curry(sum);
