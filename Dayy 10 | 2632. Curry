@@ -1,3 +1,36 @@
+Partial application of function arguments is a technique in functional programming where a function is applied to some of its arguments,
+resulting in a new function that takes the remaining arguments.
+This allows for creating more specialized or customized versions of the original function.
+
+In partial application, you supply a subset of the required arguments to a function, and it returns a new function that expects the remaining arguments. 
+This new function can be called later with the remaining arguments to produce the final result.
+
+Customizing API calls: Currying can help create more specific API calls based on a generic API call function.
+const apiCall = baseUrl => endpoint => params =>
+        fetch(`${baseUrl}${endpoint}`, { ...params });
+
+const myApiCall = apiCall("https://my-api.com");
+const getUser = myApiCall("/users");
+const updateUser = myApiCall("/users/update");
+
+// Usage:
+getUser({ userId: 1 });
+updateUser({ userId: 1, name: "John Doe" });
+*************
+Higher-order functions and functional composition: 
+Currying enables the creation of higher-order functions that can be composed to create more complex functionality.
+const compose = (f, g) => x => f(g(x));
+
+const double = x => x * 2;
+const square = x => x * x;
+
+const doubleThenSquare = compose(square, double);
+
+const result = doubleThenSquare(5); // (5 * 2)^2 = 100
+
+**************
+
+
 /**
  * @param {Function} fn
  * @return {Function}
@@ -59,3 +92,27 @@ var curry = function(fn) {
  * const csum = curry(sum);
  * csum(1)(2) // 3
  */
+************************
+If the condition is true, it means all the required arguments have been collected. 
+In this case, the original function fn is invoked using the apply method.
+The apply method is used to pass the arguments array args to the function, with this set to the current execution context 
+(usually the value of this in the outer function).
+
+If the condition is false, it means partial function application is still in progress. 
+In this case, a new function is returned. This new function is created using the bind method, 
+which allows you to partially apply arguments by creating a new function with pre-filled arguments.
+
+The bind method is called on the curried function, and ...args is passed as the first argument. 
+This pre-fills the existing arguments (...args) of the curried function and returns a new function that expects the remaining arguments.
+The returned function is then used for further partial function application or can be called with the remaining arguments to produce the final result.
+
+var curry = function (fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
+    }
+
+    return curried.bind(this, ...args);
+  };
+};
+**************
