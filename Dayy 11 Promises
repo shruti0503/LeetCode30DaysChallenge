@@ -1,0 +1,98 @@
+In the given code snippet, using the async keyword is not necessary for the sleep function. 
+The async keyword is used to declare an asynchronous function, which automatically wraps the function's return value in a Promise.
+However, in this case, the sleep function itself returns a Promise explicitly, so there is no need to mark it as an async function.
+
+The problem involves the concept of asynchronous programming. Specifically, it focuses on promises and the setTimeout function,
+a web API method that introduces a delay in the execution of code.
+
+A promise in JavaScript is an object representing the eventual completion or failure of an asynchronous operation.
+Essentially, it's a returned object to which you attach callbacks, as opposed to passing callbacks into a function.
+
+WAY 1
+async function sleep(millis) {
+    function callback(resolve,reject){
+        setTimeout(resolve,millis);
+
+    }
+    return new Promise(callback);
+    
+}
+WAY 2
+async function sleep(millis) {
+
+
+    return new Promise((resolve,reject) =>{
+         setTimeout(resolve,millis);
+
+    }) 
+    
+}
+
+WAY 3
+async function sleep(millis) {
+
+
+    return new Promise(function(resolve,reject){
+         setTimeout(resolve,millis);
+
+    })
+    
+    
+    
+}
+
+WAY 4
+ function sleep(millis) {
+
+
+    return new Promise(function(resolve,reject){
+         setTimeout(resolve,millis);
+
+    })
+    
+    
+    
+}
+
+Once setTimeout is called, the JavaScript runtime sets up the timer,
+but then immediately continues executing any following code. 
+It does not pause or wait for the timer to finish, illustrating the non-blocking nature of JavaScript.
+
+After the specified delay (2 seconds in this case), the callback function is added to the task queue.
+However, it's important to note that the callback function is not necessarily executed right at this moment. 
+The actual delay until the callback function is invoked may be slightly longer than the specified delay. 
+This is due to the nature of the event-driven JavaScript runtime and the single-threaded event loop.
+
+Imagine if there was a long process or operation blocking the main JavaScript thread. 
+In such a scenario, even if the timer has completed in the background,
+the callback function would still have to wait for the completion of the blocking task. 
+This is because the event loop can only handle one task at a time, and it processes tasks in the order they are queued.
+
+Asynchronous Callbacks
+setTimeout is an example of an asynchronous function in JavaScript. 
+When the setTimeout function is called, it starts a timer and then immediately returns, 
+allowing the JavaScript runtime to continue executing other code without waiting for the timer to complete.
+This is the non-blocking nature of JavaScript.
+
+Once the timer completes, the callback function given to setTimeout is added to the task queue.
+The Event Loop constantly checks the call stack and the task queue. When the call stack is empty,
+it takes the first task from the task queue and pushes it onto the call stack to be executed.
+
+To simplify working with promises, JavaScript provides the async and await keywords, which allow you to write asynchronous code 
+that looks and behaves more like synchronous code. The async keyword is used to declare an asynchronous function. 
+When called, an async function returns a promise. When the async function returns a value, the promise is fulfilled with that value.
+If the async function throws an exception, the promise is rejected with the thrown value.
+
+
+Concurrency and the Event Loop
+Here's how JavaScript can handle concurrent operations:
+
+JavaScript runs a piece of code (this code is running on the main thread).
+When an async operation is encountered (like setTimeout, fetch, etc.), 
+JavaScript sets it up and then continues running the rest of the code. It doesn't wait for the async operation to complete.
+This async operation might be running in the background but not on the main JavaScript thread.
+When the async operation completes, its callback function is placed into the task queue.
+Once the call stack is empty (i.e., all the code in the current turn of the Event Loop has been executed), 
+the Event Loop takes the first task from the task queue and pushes it onto the call stack, which immediately executes it.
+This process continues, with the Event Loop pushing tasks from the task queue onto the call stack whenever the call stack is empty,
+allowing JavaScript to handle multiple operations concurrently despite being single-threaded.
