@@ -1,0 +1,39 @@
+/**
+ * @param {any} object
+ * @return {string}
+ */
+var jsonStringify = function(object) {
+    // return JSON.stringify(object);
+    //covert object to string
+    
+    if(object===null || object===undefined){
+        return String(object);
+    }
+
+    //Arrays[]
+    if(Array.isArray(object)){
+        let res="";
+
+        // for(let i=0;i<object.length;i++){
+        //     res+=jsonStringify(object[i])+",";
+        // }
+
+       const values= object.map((obj)=>jsonStringify(obj));
+       return `[${values.join(",")}]`;
+        // return res;
+    }
+
+    //objects{}
+    if(typeof object==='object' ){
+        const keys=Object.keys(object);
+        const keyValPairs=keys.map((key)=>`"${key}":${jsonStringify(object[key])}`)
+        return `{${keyValPairs.join(",")}}`;
+    }
+    //strings
+    if(typeof object==='string'){
+        return `"${String(object)}"`;
+    }
+    return String(object);
+
+    // return String(object);
+}
