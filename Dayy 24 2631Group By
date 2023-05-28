@@ -1,0 +1,73 @@
+/**
+ * @param {Function} fn
+ * @return {Array}
+ */
+//  This code extends the Array prototype by adding a new method called groupBy. 
+//  It takes a single parameter fn, which is expected to be a function used to determine the grouping key for each element in the array.
+Array.prototype.groupBy = function(fn) {
+    // This initializes an empty object called res which will be used to store the grouped results.
+    const res={};
+// This is a for...of loop that iterates over each element (obj) in the array that the groupBy method is called on (this).
+    for(const obj of this){
+// This line calls the provided fn function, passing the current element (obj) as an argument,
+//  and assigns the returned value to the key variable. 
+//  The fn function is responsible for determining the grouping key for each element.
+        const key=fn(obj);
+// This checks if the res object does not already have a property with the name equal to the key. 
+        if(!res.hasOwnProperty(key)){
+            res[key]=[];
+// If not, it adds a new property to res with the name equal to the key and assigns an empty array ([]) as its value. This ensures that each unique key has an associated array to store the grouped elements.
+        }
+        res[key].push(obj);
+    }
+    return res;
+    
+};
+*************************************
+In the line `const key = fn(obj);`, the `fn` function is called with the current element `obj` as an argument, 
+and the returned value is assigned to the `key` variable.
+
+The purpose of this step is to determine the grouping key for each element in the array. 
+The `fn` function is a parameter passed to the `groupBy` function, and it is expected to be a function provided by the user. 
+The user defines this function and passes it to the `groupBy` function when calling it.
+
+For example, if the user wants to group an array of objects based on their "category" property, 
+they would define a function that extracts the "category" value from an object. They would then pass this function as the argument `fn` when calling `groupBy`.
+
+Here's an example usage:
+
+```javascript
+const products = [
+  { name: 'Apple', category: 'Fruit' },
+  { name: 'Banana', category: 'Fruit' },
+  { name: 'Carrot', category: 'Vegetable' },
+  { name: 'Broccoli', category: 'Vegetable' },
+];
+
+const result = products.groupBy(obj => obj.category);
+```
+
+In this example, the `fn` function is defined as `obj => obj.category`, 
+which accesses the "category" property of each object. So, when `fn` is called with each object as an argument (`fn(obj)`), 
+it retrieves the "category" value from that object. The resulting `key` is used to group the objects based on their categories.
+
+In the end, the `result` object would look like this:
+
+```javascript
+{
+  Fruit: [
+    { name: 'Apple', category: 'Fruit' },
+    { name: 'Banana', category: 'Fruit' }
+  ],
+  Vegetable: [
+    { name: 'Carrot', category: 'Vegetable' },
+    { name: 'Broccoli', category: 'Vegetable' }
+  ]
+}
+```
+
+Each category serves as a key in the resulting object, and the corresponding objects are grouped together in arrays under their respective categories.
+
+/**
+ * [1,2,3].groupBy(String) // {"1":[1],"2":[2],"3":[3]}
+ */
