@@ -1,0 +1,17 @@
+Array.prototype.last = function() {
+    if(this.length==0){
+        return -1;
+    }
+    else return this[this.length-1];
+    
+};
+
+
+// Array.prototype.last = function() { ... } adds a new function called last() to the prototype of the Array object. This means that all arrays in JavaScript will now have access to this function.
+
+// In JavaScript, prototype is a property of functions that allows you to add properties and methods to all instances of that function. When you create an object in JavaScript using a constructor function, the object inherits properties and methods from the constructor function's prototype object.
+
+/**
+ * const arr = [1, 2, 3];
+ * arr.last(); // 3
+ */
