@@ -1,0 +1,99 @@
+/**
+ * @param {Object} context
+ * @param {any[]} args
+ * @return {any}
+ */
+Function.prototype.callPolyfill = function(context, ...args) {
+   return  this.apply(context,args)
+
+}
+// The `apply` method is a built-in method in JavaScript functions. 
+//It allows you to call a function with a specified `this` value and an array-like or iterable object as arguments.
+
+// The syntax for using the `apply` method is as follows:
+
+// ```javascript
+// functionName.apply(thisArg, [argsArray]);
+// ```
+
+// - `functionName`: The function to be called.
+// - `thisArg`: The value to be passed as the `this` value to the function.
+//It determines the context in which the function will be executed.
+// - `argsArray`: An array-like or iterable object containing the arguments to be passed to the function.
+
+// The `apply` method is similar to the `call` method, but instead of passing individual arguments 
+//to the function, you pass an array-like or iterable object containing the arguments. 
+//The elements of the array or iterable are then passed as individual arguments to the function.
+
+// Here's an example to illustrate the usage of `apply`:
+
+// ```javascript
+// function greet(name) {
+//   console.log(`Hello, ${name}!`);
+// }
+
+// greet.apply(null, ['John']);
+// // Output: Hello, John!
+// ```
+
+// In this example, `greet.apply(null, ['John'])` calls the `greet` function with `'John'` as the argument.
+//Since we're not interested in setting a specific `this` value (`thisArg`) for the `greet` function, 
+//`null` is passed as the first argument to `apply`. The elements of the `['John']` array are then passed 
+//as individual arguments to the `greet` function.
+
+// Note that the `apply` method is less commonly used in modern JavaScript code compared to the spread operator
+//(`...`) or the `call` method, as they provide more flexibility and readability when passing arguments to functions.
+/**
+ * function increment() { this.count++; return this.count; }
+ * increment.callPolyfill({count: 1}); // 2
+ */
+ 
+ ************************
+ OR
+ Function.prototype.callPolyfill = function(context, ...args) {
+   return  this.bind(context)(...args)
+
+}
+
+The `.bind()` method is a built-in method in JavaScript functions that allows you to create a 
+new function with a specified `this` value and, optionally, pre-set arguments. 
+It returns a new function that, when called, has its `this` value set to the provided value,
+and any specified arguments are pre-filled before additional arguments are passed.
+
+The syntax for using the `.bind()` method is as follows:
+
+```javascript
+functionName.bind(thisArg[, arg1[, arg2[, ...]]]);
+```
+
+- `functionName`: The function to be bound.
+- `thisArg`: The value to be passed as the `this` value to the function. 
+It determines the context in which the function will be executed.
+- `arg1, arg2, ...`: Optional arguments that are pre-filled for the new function.
+
+Here's an example to illustrate the usage of `.bind()`:
+
+```javascript
+function greet(greeting, name) {
+  console.log(`${greeting}, ${name}!`);
+}
+
+const sayHello = greet.bind(null, 'Hello');
+sayHello('John');
+// Output: Hello, John!
+```
+
+In this example, `.bind()` is used to create a new function `sayHello` based on 
+the `greet` function. The `null` value is passed as the `thisArg` argument, indicating
+that we're not interested in setting a specific `this` value for the new function.
+
+Additionally, `'Hello'` is passed as the `arg1` argument to `.bind()`,
+which pre-fills the `greeting` parameter of the `greet` function with `'Hello'`. 
+When `sayHello('John')` is called, the remaining `'John'` argument is passed to the `name` parameter 
+of the `greet` function.
+
+The result is that the `sayHello` function is effectively a version of the `greet` function 
+with the `'Hello'` greeting pre-filled. When `sayHello` is called, it logs `"Hello, John!"` to the console.
+
+Note that the original `greet` function is not modified or affected by the `.bind()` method. 
+Instead, a new function is created with the specified `this` value and pre-filled arguments.
